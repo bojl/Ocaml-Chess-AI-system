@@ -12,5 +12,7 @@ The AI then performs the [MinMax algorithm](https://en.wikipedia.org/wiki/Minima
 ## Credits
 
 Eval.ml and Position_score.ml were written by Bomi Lee
+
 Move_tree.ml was written by Nate R
+
 Minmax.ml was written by both Nate and Bomi
