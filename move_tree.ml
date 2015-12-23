@@ -1,3 +1,5 @@
+(* Note: written entirely by Nate R. *)
+
 open Chesstypes
 open Chessmodel
 open Rules
