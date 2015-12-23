@@ -27,24 +27,24 @@ let rec get_min_max (tree:move_tree) (depth: int) (team:team) : float =
   | Node ((score, game, _) , tree_list)->
             if contain_leaf (tree_list) || (depth=0) then score else
             (match team with
-                  |Black -> min (List.map (fun a -> get_min_max a (depth-1)  (get_other_team team)) tree_list)
-                  |White-> max (List.map (fun b -> get_min_max b (depth-1) (get_other_team team)) tree_list))
+                  |Black -> min (List.map (fun a -> get_min_max a (depth-1) (get_other_team team)) tree_list)
+                  |White -> max (List.map (fun b -> get_min_max b (depth-1) (get_other_team team)) tree_list))
   |Leaf -> failwith "Never reaches"
 
-let minimax (tree:move_tree) (depth: int) (team: team) : (float * move) =
+let mm_helper (tree:move_tree) (depth: int) (team: team) : (float * move) =
   match tree with
   |Node ((_, game, _) , tree_list) -> min_tuple (List.map (fun a ->
       match a with
-            | Leaf -> failwith "There is no actual next layer"
+            | Leaf -> failwith "single node tree"
             | Node ((_, _, move_opt) , _) ->
                       match move_opt with
-                      | None -> failwith "There should be a move to get here"
+                      | None -> failwith "no move"
                       | Some move ->  ((get_min_max a (depth-1) (get_other_team team)) , move)
        )
        tree_list )
-  | Leaf -> failwith "There should be a top node"
+  | Leaf -> failwith "empty tree"
 
 let min_max (tree: move_tree) (levels: int) (team: team): (float * move option) =
-  let x = minimax tree levels team in
+  let x = mm_helper tree levels team in
   let (score, move) = x in
   (score, Some move)
